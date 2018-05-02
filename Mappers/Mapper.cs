@@ -7,15 +7,9 @@ using System.Reflection;
 namespace Mappers
 {
 
-    public class Mapper
+    public static class Mapper
     {
-
-
-        public Mapper()
-        {
-
-        }
-
+                    
 
         /// <summary>
         /// Filters the properties.
@@ -23,7 +17,7 @@ namespace Mappers
         /// <typeparam name="TSource">The type of the source.</typeparam>
         /// <param name="excludeProperty">The property keys.</param>
         /// <returns></returns>
-        private List<string> FilterProperties<TSource>(params Expression<Func<TSource, object>>[] excludeProperty)
+        internal static List<string> FilterProperties<TSource>(params Expression<Func<TSource, object>>[] excludeProperty)
         {
 
 
@@ -56,7 +50,7 @@ namespace Mappers
         /// <typeparam name="Ttarget">The type of the target.</typeparam>
         /// <param name="source">The source.</param>
         /// <param name="target">The target.</param>
-        public void Map<TSource, Ttarget>(TSource source, Ttarget target)
+        public static void Map<TSource, Ttarget>(this TSource source, Ttarget target)
         {
 
 
@@ -100,13 +94,13 @@ namespace Mappers
         /// <param name="source">The source.</param>
         /// <param name="target">The target.</param>
         /// <param name="excludeProperty">The property keys.</param>
-        public void Map<TSource, Ttarget>(TSource source, Ttarget target, params Expression<Func<TSource, object>>[] excludeProperty)
+        public static void Map<TSource, Ttarget>(this TSource source, Ttarget target, params Expression<Func<TSource, object>>[] excludeProperty)
         {
 
 
             bool isPropertyKey = false;
             Func<string, bool> checkPropertyKey = key => FilterProperties(excludeProperty).Any(x => x == key);
-
+            
 
 
             Array.ForEach(source.GetType().GetProperties(),
